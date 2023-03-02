@@ -2,7 +2,7 @@ const QueryModel = require('../model/QueryModel.js');
 const ErrorModel = require('../model/ErrorModel.js');
 const ImageModel = require('../model/ImageModel.js');
 const env = require('../utils/env.js');
-const testing = true;
+const testing = false;
 
 exports.getImages = async (req, res) => {
     data = {
@@ -29,8 +29,8 @@ exports.getImages = async (req, res) => {
 
         const response = await openai.createImage({
             prompt: imageStr,
-            n: 1,
-            size: "256x256",
+            n: 2,
+            size: "512x512",
         }).catch(error => {
             // API failed
             data.errors.push(error.response.data.error.message);
@@ -49,9 +49,7 @@ exports.getImages = async (req, res) => {
     } else {
         // TESTING ONLY
         data.images = [
-            {"url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-7Mx3zAFRO3FyBf7inVVu1dn3/user-MFbiojPuxsJQUfphJ5UdOztG/img-UBLISsj22uIOzOCKOCtvpG42.png?st=2023-03-01T23%3A41%3A55Z&se=2023-03-02T01%3A41%3A55Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-03-01T22%3A06%3A15Z&ske=2023-03-02T22%3A06%3A15Z&sks=b&skv=2021-08-06&sig=9ICTiXqc0tnNn98iPRMLfs2LHkc18xpQXRIBs2b4A5A%3D"},
-            {"url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-7Mx3zAFRO3FyBf7inVVu1dn3/user-MFbiojPuxsJQUfphJ5UdOztG/img-UBLISsj22uIOzOCKOCtvpG42.png?st=2023-03-01T23%3A41%3A55Z&se=2023-03-02T01%3A41%3A55Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-03-01T22%3A06%3A15Z&ske=2023-03-02T22%3A06%3A15Z&sks=b&skv=2021-08-06&sig=9ICTiXqc0tnNn98iPRMLfs2LHkc18xpQXRIBs2b4A5A%3D"},
-            {"url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-7Mx3zAFRO3FyBf7inVVu1dn3/user-MFbiojPuxsJQUfphJ5UdOztG/img-UBLISsj22uIOzOCKOCtvpG42.png?st=2023-03-01T23%3A41%3A55Z&se=2023-03-02T01%3A41%3A55Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-03-01T22%3A06%3A15Z&ske=2023-03-02T22%3A06%3A15Z&sks=b&skv=2021-08-06&sig=9ICTiXqc0tnNn98iPRMLfs2LHkc18xpQXRIBs2b4A5A%3D"}
+            {"url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-p9CuILOWpRQcUQ2zdxhiIRLj/user-rij9MdwjxPUzTsloafnpLad3/img-MnsTMXLlo9PrCaQdlqMi7z3D.png?st=2023-03-02T01%3A08%3A08Z&se=2023-03-02T03%3A08%3A08Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-03-01T21%3A42%3A54Z&ske=2023-03-02T21%3A42%3A54Z&sks=b&skv=2021-08-06&sig=gVXt60HMORm2Gb826Ud%2Bd5Q2XgyseIMbpHYlUHln3wY%3D"}
         ];
     }
     
@@ -63,7 +61,29 @@ exports.getImages = async (req, res) => {
 }
 
 exports.saveImages = (images, queryId) => {
-    
+    const https = require('https'); // or 'https' for https:// URLs
+    const fs = require('fs');
 
-    ImageModel.addImages(images, queryId);
+    for (let i = 0; i < images.length; i++) {
+        
+        let filename = Date.now() + '.jpg';
+        let file = fs.createWriteStream('./image/' + filename);
+        let request = https.get(images[i].url, function(response) {
+            response.pipe(file);
+
+            // after download completed close filestream
+            file.on("finish", () => {
+                file.close();
+                console.log(filename);
+                console.log("Download Completed");
+                
+                // add it to the image database
+                ImageModel.addImage('/image/' + filename, queryId);
+            });
+        });
+    }
+
+
+
+    
 }
