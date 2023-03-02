@@ -5,6 +5,6 @@ const Promise = require('promise');
 const ImageController = require('../controllers/ImageController.js');
 
 
-router.post('/', ImageController.index);
+router.post('/', ImageController.getImages);
 
 module.exports = router;

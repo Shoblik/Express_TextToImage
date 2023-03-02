@@ -3,7 +3,7 @@ const ErrorModel = require('../model/ErrorModel.js');
 const env = require('../utils/env.js');
 const testing = true;
 
-exports.index = async (req, res) => {
+exports.getImages = async (req, res) => {
     data = {
         success: true,
         errors: [],
