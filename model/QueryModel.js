@@ -1,5 +1,6 @@
 const mysqlCon = require('../utils/database');
 const ImageModel = require('./ImageModel.js');
+const ImageController = require('../controllers/ImageController.js');
 const ErrorModel = require('./ErrorModel.js');
 
 exports.addQuery = async (query, ip, browser, os, platform, source, isMobile) => {
@@ -8,7 +9,7 @@ exports.addQuery = async (query, ip, browser, os, platform, source, isMobile) =>
         VALUES('${query}', '${ip}', '${browser}', '${os}', '${platform}', '${source}', '${isMobile}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
         `;
 
-    await mysqlCon.query(
+    mysqlCon.query(
         sql, 
         (error, results) => {
             if (error) {
@@ -19,7 +20,7 @@ exports.addQuery = async (query, ip, browser, os, platform, source, isMobile) =>
                 // console.log('//////////////', data);
 
                 if (data.images.length) {
-                    const didInsert = ImageModel.addImages(data.images, results.insertId);
+                    ImageController.saveImages(data.images, results.insertId);
                 }
             }
     });

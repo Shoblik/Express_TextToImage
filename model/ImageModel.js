@@ -22,6 +22,8 @@ exports.addImages = (images, queryId) => {
                 console.log(error);
                 return false;
             }
+
+            console.log(results);
     });
 }
 
