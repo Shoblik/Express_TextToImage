@@ -1,0 +1,36 @@
+body {
+    background: #2b2b2b;
+    background-attachment: fixed;
+}
+input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid rgb(66 66 66);
+    width: 100%;
+    color: white;
+    font-size: 35px;
+    margin-top: 30px;
+}
+img {
+    width: 100%;
+}
+.container {
+    position: relative;
+}
+.spinner {
+    width: 50px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: none;
+}
+form {
+    position: relative;
+}
+p {
+    color: #9a9a9a;
+}
+.policy {
+    margin-top:  32px;
+    display: none;
+}
