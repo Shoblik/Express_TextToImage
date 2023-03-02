@@ -2,7 +2,6 @@ const QueryModel = require('../model/QueryModel.js');
 const ErrorModel = require('../model/ErrorModel.js');
 const ImageModel = require('../model/ImageModel.js');
 const env = require('../utils/env.js');
-const testing = false;
 
 exports.getImages = async (req, res) => {
     data = {
@@ -20,7 +19,7 @@ exports.getImages = async (req, res) => {
     const isMobile = req.useragent.isMobile;
     const imageStr = req.body.imageStr;
     
-    if (!testing) {
+    if (!env.testing) {
         const { Configuration, OpenAIApi } = require("openai");
         const configuration = new Configuration({
             apiKey: env.apiKey,
