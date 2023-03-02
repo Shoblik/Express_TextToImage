@@ -4,6 +4,9 @@ const ImageController = require('../controllers/ImageController.js');
 const ErrorModel = require('./ErrorModel.js');
 
 exports.addQuery = (query, ip, browser, os, platform, source, isMobile) => {
+
+    isMobile = isMobile ? 1: 0;
+
     const sql = `
         INSERT INTO query (\`query\`, ip, browser, os, platform, \`source\`, isMobile, created_at, updated_at)
         VALUES('${query}', '${ip}', '${browser}', '${os}', '${platform}', '${source}', '${isMobile}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
