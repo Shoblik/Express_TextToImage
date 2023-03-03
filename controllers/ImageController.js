@@ -66,7 +66,7 @@ exports.saveImages = (images, queryId) => {
     for (let i = 0; i < images.length; i++) {
         
         let filename = Date.now() + '.jpg';
-        let file = fs.createWriteStream('./image/' + filename);
+        let file = fs.createWriteStream('./public/img/' + filename);
         let request = https.get(images[i].url, function(response) {
             response.pipe(file);
 
@@ -77,7 +77,7 @@ exports.saveImages = (images, queryId) => {
                 console.log("Download Completed");
                 
                 // add it to the image database
-                ImageModel.addImage('/image/' + filename, queryId);
+                ImageModel.addImage('/public/img/' + filename, queryId);
             });
         });
     }
