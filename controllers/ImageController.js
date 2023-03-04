@@ -31,6 +31,9 @@ exports.getImages = async (req, res) => {
             n: 2,
             size: "512x512",
         }).catch(error => {
+            console.log(error);
+            console.log('?????????');
+
             // API failed
             data.errors.push(error.response.data.error.message);
 
