@@ -28,7 +28,7 @@ exports.getImages = async (req, res) => {
 
         const response = await openai.createImage({
             prompt: imageStr,
-            n: 2,
+            n: 1,
             size: "512x512",
         }).catch(error => {
             // API failed
