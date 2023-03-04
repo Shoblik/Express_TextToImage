@@ -31,9 +31,6 @@ exports.getImages = async (req, res) => {
             n: 2,
             size: "512x512",
         }).catch(error => {
-            console.log(error);
-            console.log('?????????');
-
             // API failed
             data.errors.push(error.response.data.error.message);
 
@@ -51,7 +48,7 @@ exports.getImages = async (req, res) => {
     } else {
         // TESTING ONLY
         data.images = [
-            {"url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-p9CuILOWpRQcUQ2zdxhiIRLj/user-rij9MdwjxPUzTsloafnpLad3/img-MnsTMXLlo9PrCaQdlqMi7z3D.png?st=2023-03-02T01%3A08%3A08Z&se=2023-03-02T03%3A08%3A08Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-03-01T21%3A42%3A54Z&ske=2023-03-02T21%3A42%3A54Z&sks=b&skv=2021-08-06&sig=gVXt60HMORm2Gb826Ud%2Bd5Q2XgyseIMbpHYlUHln3wY%3D"}
+            {"url": "http://localhost:3000/ai/1677805045291.jpg"}
         ];
     }
     

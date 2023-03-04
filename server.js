@@ -15,4 +15,6 @@ app.get('/', (req, res) => {
 
 app.use('/image', imageRouter);
 
+app.use(express.static('public'))
+
 app.listen(3000);
