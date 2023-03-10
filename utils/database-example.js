@@ -2,16 +2,18 @@ var mysql = require('mysql');
 
 console.log('attempting to connect');
 
-var con = mysql.createConnection({
+var pool = mysql.createPool({
+    connectionLimit: 100,
     host: "localhost",
     user: "root",
     password: "",
-    database: "text_to_image"
+    database: "text_to_image",
+    debug: false
 });
 
-con.connect(function(err) {
+pool.getConnection(function(err, connection) {
     if (err) throw err;
     console.log("Connected!");
 });
 
-module.exports = con;
+module.exports = pool;
